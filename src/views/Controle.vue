@@ -15,7 +15,7 @@
         </v-card-title>
         <v-data-table :search="search" :headers="headers" :items="data" class="elevation-1">
           <template v-slot:items="props">
-            <td   v-for="(item, key) in headers" :key="key"><p v-bind:class='{ "redcolor": props.item["blue"]==="red"}'>{{props.item["error"]}} {{ props.item[item.value] }}</p></td>
+            <td   v-for="(item, key) in headers" :key="key"><p v-bind:class='{ "redcolor": props.item["blue"]==="red"}'>{{props.index}} {{ props.item[item.value] }}</p></td>
           </template>
         </v-data-table>
       </div>
@@ -47,38 +47,40 @@ export default {
     data() {
         var self=this;
         var index=0;
-        while(index  < self.$store.state.data.length -4){
+        while(index  <= self.$store.state.data.length -4){
          console.log("index",index);
-            if(index < self.$store.state.data.length -4){
-
-            if(parseInt(self.$store.state.data[index]["Cotes Dernière"].replace(",",".")) < parseInt(self.$store.state.data[index+3]["Cotes Dernière"].replace(",","."))){
-                                console.log("goora che 13 razi" ,index,self.$store.state.data[index+3]["Cotes Dernière"].replace(",","."));
+            if(index <= self.$store.state.data.length -4){
+            if(self.$store.state.data[index]["Evénement"] ===self.$store.state.data[index+3]["Evénement"]){
+            if(parseInt(self.$store.state.data[index]["Cotes Première"].replace(",",".")) < parseInt(self.$store.state.data[index+3]["Cotes Première"].replace(",","."))){
+                                console.log("goora che blue razi" ,index,self.$store.state.data[index+3]["Cotes Première"].replace(",","."));
                                 self.$store.state.data[index+3]["blue"]= "red";
                         }
                         else{
-                            self.$store.state.data[index+4]["blue"]= "black";
+                            self.$store.state.data[index+3]["blue"]= "black";
                         }
             }
-
+        }
             index=index+3;
-            console.log(index);
+            console.log("Index",index);
         }
 
        var indexi=2;
             while(indexi  < self.$store.state.data.length -4){
              console.log("index",indexi);
                 if(indexi < self.$store.state.data.length -4){
-                if(parseInt(self.$store.state.data[indexi]["Cotes Dernière"].replace(",",".")) > parseInt(self.$store.state.data[indexi+3]["Cotes Dernière"].replace(",","."))){
-                                    console.log("goora che 13 razi" ,indexi,self.$store.state.data[indexi+3]["Cotes Dernière"].replace(",","."));
+                if(self.$store.state.data[indexi]["Evénement"] ===self.$store.state.data[indexi+3]["Evénement"]){
+
+                if(parseInt(self.$store.state.data[indexi]["Cotes Première"].replace(",",".")) > parseInt(self.$store.state.data[indexi+3]["Cotes Première"].replace(",","."))){
+                                    console.log("goora che 13 razi" ,indexi,self.$store.state.data[indexi+3]["Cotes Première"].replace(",","."));
                                     self.$store.state.data[indexi+3]["blue"]= "red";
                             }
                             else{
-                                self.$store.state.data[indexi+4]["blue"]= "black";
+                                self.$store.state.data[indexi+3]["blue"]= "black";
                             }
                 }
-
+}
                 indexi=indexi+3;
-                console.log(index);
+                console.log("indexi",indexi);
             }
       return this.$store.state.data;
     },
